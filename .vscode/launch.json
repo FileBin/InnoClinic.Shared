@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Authorization.API",
+            "projectPath": "${workspaceFolder}/Backend/AuthorizationAPI/AuthorizationAPI.csproj",
+            "type": "dotnet",
+            "request": "launch",
+        }
+    ]
+}

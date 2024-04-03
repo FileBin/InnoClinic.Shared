@@ -1,0 +1,178 @@
+version: '3.8'
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: innoclinic-nginx
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - '/var/run/docker.sock:/tmp/docker.sock:ro'
+      - './shared/nginx/vhost.d:/etc/nginx/vhost.d'
+      - './shared/nginx/certs:/etc/nginx/certs:ro'
+    networks:
+      innoclinic_proxy: null
+      innoclinic_identityserverui:
+        aliases:
+          - sts.innoclinic.local
+          - admin.innoclinic.local
+          - admin-api.innoclinic.local
+    restart: always
+
+  authorizationapi.admin:
+    image: '${DOCKER_REGISTRY-}innoclinic-duende-identityserver-admin'
+    build:
+      context: Backend/AuthorizationAPI
+      dockerfile: src/AuthorizationAPI.Admin/Dockerfile
+    container_name: innoclinic-duende-identityserver-admin
+    environment:
+      - VIRTUAL_HOST=admin.innoclinic.local
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__AdminLogDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__AdminAuditLogDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.innoclinic.local'
+      - 'AdminConfiguration__IdentityAdminRedirectUri=https://admin.innoclinic.local/signin-oidc'
+      - 'AdminConfiguration__IdentityServerBaseUrl=https://sts.innoclinic.local'
+      - AdminConfiguration__RequireHttpsMetadata=false
+      - 'IdentityServerData__Clients__0__ClientUri=https://admin.innoclinic.local'
+      - 'IdentityServerData__Clients__0__RedirectUris__0=https://admin.innoclinic.local/signin-oidc'
+      - 'IdentityServerData__Clients__0__FrontChannelLogoutUri=https://admin.innoclinic.local/signout-oidc'
+      - 'IdentityServerData__Clients__0__PostLogoutRedirectUris__0=https://admin.innoclinic.local/signout-callback-oidc'
+      - 'IdentityServerData__Clients__0__AllowedCorsOrigins__0=https://admin.innoclinic.local'
+      - 'IdentityServerData__Clients__1__RedirectUris__0=https://admin-api.innoclinic.local/swagger/oauth2-redirect.html'
+      - 'IdentityServerData__Clients__1__AllowedCorsOrigins__0=https://admin-api.innoclinic.local'
+      - 'Serilog__WriteTo__1__Args__connectionString=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'AdminConfiguration__Theme=sketchy'
+      - 'IdentityServerData__Clients__0__ClientSecrets__0__Value=${IDENTITY_ADMIN_CLIENT_SECRET}'
+      - 'AdminConfiguration__ClientSecret=${IDENTITY_ADMIN_CLIENT_SECRET}'
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    command: dotnet AuthorizationAPI.Admin.dll /seed
+    depends_on:
+      - db
+      - authorizationapi.sts.identity
+    volumes:
+      - './shared/serilog.json:/app/serilog.json'
+      - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
+    networks:
+      innoclinic_identityserverui: null
+    restart: on-failure:5
+  
+  authorizationapi.admin.api:
+    image: '${DOCKER_REGISTRY-}innoclinic-duende-identityserver-admin-api'
+    build:
+      context: Backend/AuthorizationAPI
+      dockerfile: src/AuthorizationAPI.Admin.Api/Dockerfile
+    container_name: innoclinic-duende-identityserver-admin-api
+    environment:
+      - VIRTUAL_HOST=admin-api.innoclinic.local
+      - AdminApiConfiguration__RequireHttpsMetadata=false
+      - 'AdminApiConfiguration__ApiBaseUrl=https://admin-api.innoclinic.local'
+      - 'AdminApiConfiguration__IdentityServerBaseUrl=https://sts.innoclinic.local'
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__AdminLogDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__AdminAuditLogDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'AdminConfiguration__Theme=sketchy'
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    volumes:
+      - './shared/serilog.json:/app/serilog.json'
+      - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
+    networks:
+      innoclinic_identityserverui: null
+    restart: on-failure:5
+  
+  authorizationapi.sts.identity:
+    image: '${DOCKER_REGISTRY-}innoclinic-duende-identityserver-sts-identity'
+    build:
+      context: Backend/AuthorizationAPI
+      dockerfile: src/AuthorizationAPI.STS.Identity/Dockerfile
+    container_name: innoclinic-duende-identityserver-sts-identity
+    environment:
+      - VIRTUAL_HOST=sts.innoclinic.local
+      - 'ConnectionStrings__ConfigurationDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__PersistedGrantDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__IdentityDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'ConnectionStrings__DataProtectionDbConnection=Server=db;Database=IdentityServerAdmin;User Id=sa;Password=${DB_PASSWORD:-Password_123};MultipleActiveResultSets=true;Trust Server Certificate=True;'
+      - 'AdminConfiguration__IdentityAdminBaseUrl=https://admin.innoclinic.local'
+      - 'AdvancedConfiguration__IssuerUri=https://sts.innoclinic.local'
+      - 'AdminConfiguration__Theme=sketchy'
+      - DockerConfiguration__UpdateCaCertificate=true
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+    depends_on:
+      - db
+    volumes:
+      - './shared/serilog.json:/app/serilog.json'
+      - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
+    networks:
+      innoclinic_identityserverui:
+        aliases:
+          - sts.innoclinic.local
+    restart: on-failure:5
+
+  officesAPI:
+    image: '${DOCKER_REGISTRY-}innoclinic-offices-api'
+    build:
+      context: Backend/OfficesAPI
+    container_name: innoclinic-offices-api
+    environment:
+      - OfficesDb__Password=${OFFICES_DB_PASSWORD}
+    depends_on:
+      - mongodb
+    volumes:
+      - './shared/nginx/certs/cacerts.crt:/usr/local/share/ca-certificates/cacerts.crt'
+
+
+  db:
+    image: 'mcr.microsoft.com/mssql/server:2022-CU12-ubuntu-22.04'
+    ports:
+      - '7900:1433'
+    container_name: innoclinic-duende-identityserver-db
+    environment:
+      MSSQL_SA_PASSWORD: '${DB_PASSWORD:-Password_123}'
+      ACCEPT_EULA: 'Y'
+    volumes:
+      - 'dbdata:/var/opt/mssql'
+    networks:
+      innoclinic_identityserverui: null
+    restart: 
+      on-failure:5
+
+  mongodb:
+    image: mongo:4.2.3-bionic
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_DATABASE=offices
+      - MONGO_INITDB_ROOT_USERNAME=officesAPI
+      - MONGO_INITDB_ROOT_PASSWORD=${OFFICES_DB_PASSWORD}
+    volumes:
+      - ./mongo-entrypoint:/docker-entrypoint-initdb.d
+      - mongodb:/data/db
+      - mongoconfig:/data/configdb
+    networks:
+      - mongo_net
+
+volumes:
+  dbdata:
+    driver: local
+  mongodb:
+  mongoconfig:
+
+networks:
+  innoclinic_proxy:
+    driver: bridge
+  innoclinic_identityserverui:
+    driver: bridge
+  mongo_net:
+    driver:
+      bridge
