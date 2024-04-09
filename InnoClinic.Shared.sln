@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoClinic.Shared.Misc", "M
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoClinic.Shared.TestUtils", "TestUtils\InnoClinic.Shared.TestUtils.csproj", "{F44FE716-080A-447C-BEF0-5E46FCF46E92}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.Tests", "Tests\InnoClinic.Shared.Tests.csproj", "{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{F44FE716-080A-447C-BEF0-5E46FCF46E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F44FE716-080A-447C-BEF0-5E46FCF46E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F44FE716-080A-447C-BEF0-5E46FCF46E92}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
