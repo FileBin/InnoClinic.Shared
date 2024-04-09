@@ -22,6 +22,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TestUtils\InnoClinic.Shared.TestUtils.csproj" />
+        <ProjectReference Include="..\TestUtils\InnoClinic.Shared.TestUtils.csproj" />
     </ItemGroup>
 </Project>
