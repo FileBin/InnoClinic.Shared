@@ -1,4 +1,4 @@
-﻿namespace Shared.Domain.Abstractions;
+﻿namespace InnoClinic.Shared.Domain.Abstractions;
 
 public interface IRepository<T> {
     Task<T?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);

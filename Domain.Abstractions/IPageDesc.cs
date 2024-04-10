@@ -1,7 +1,7 @@
-namespace Shared.Domain.Abstractions;
+namespace InnoClinic.Shared.Domain.Abstractions;
 
 public interface IPageDesc {
-    
+
     int PageNumber { get; }
     int PageSize { get; }
 }

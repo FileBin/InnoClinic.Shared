@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Shared.Domain.Abstractions;
+using InnoClinic.Shared.Domain.Abstractions;
 
 namespace Shared.Domain.Models;
 

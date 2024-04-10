@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
-using Shared.Domain.Abstractions;
+﻿using InnoClinic.Shared.Domain.Abstractions;
+using Microsoft.Extensions.Configuration;
 
 namespace Shared.Misc;
 
