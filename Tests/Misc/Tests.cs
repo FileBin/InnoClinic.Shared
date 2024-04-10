@@ -13,7 +13,7 @@ record ClaimDesc(string Type, string Value);
 class Tests {
     TestWebApplicationFactory<TestWebApp.Program> _application;
 
-    private readonly WebApplicationFactoryClientOptions DefaultOptions = new WebApplicationFactoryClientOptions() {
+    private readonly WebApplicationFactoryClientOptions DefaultOptions = new() {
         AllowAutoRedirect = false
     };
 

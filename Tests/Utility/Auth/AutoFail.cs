@@ -1,4 +1,4 @@
-namespace InnoClinic.Shared.Tests.Utility.Auth;
+namespace InnoClinic.Shared.Tests;
 
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
@@ -16,3 +16,5 @@ public class AutoFail : AuthenticationHandler<AutoFailOptions> {
         return Task.FromResult(AuthenticateResult.Fail("AutoFail"));
     }
 }
+
+public class AutoFailOptions : AuthenticationSchemeOptions { }
