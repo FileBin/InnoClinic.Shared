@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using InnoClinic.Shared.Exceptions.Models;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Shared.Exceptions.Models;
 
 namespace Shared.Misc.Middleware;
 
@@ -24,7 +24,7 @@ internal sealed class ExceptionHandler(IProblemDetailsService problemDetailsServ
 
     private static int GetStatusCode(Exception exception) =>
         exception switch {
-            WebException we => we.statusCode,
+            WebException we => we.StatusCode,
             ValidationException => StatusCodes.Status422UnprocessableEntity,
             _ => StatusCodes.Status500InternalServerError
         };

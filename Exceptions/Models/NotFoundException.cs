@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Exceptions.Models;
+namespace InnoClinic.Shared.Exceptions.Models;
 
 public class NotFoundException : WebException {
     private static readonly string title = "NotFound";
 
-    public override int statusCode => StatusCodes.Status404NotFound;
+    public override int StatusCode => StatusCodes.Status404NotFound;
 
     public static NotFoundException ParameterNotFound(string name) => new NotFoundException($"parameter {name} not found");
 

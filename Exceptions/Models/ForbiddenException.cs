@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Exceptions.Models;
+namespace InnoClinic.Shared.Exceptions.Models;
 
 public class ForbiddenException : WebException {
 
-    public override int statusCode => StatusCodes.Status403Forbidden;
+    public override int StatusCode => StatusCodes.Status403Forbidden;
     private static readonly string title = "Forbidden";
 
     public ForbiddenException() : base(title) { }
