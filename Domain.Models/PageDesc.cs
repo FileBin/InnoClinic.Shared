@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using InnoClinic.Shared.Domain.Abstractions;
 
-namespace Shared.Domain.Models;
+namespace InnoClinic.Shared.Domain.Models;
 
 public record PageDesc : IPageDesc {
     [Required]
