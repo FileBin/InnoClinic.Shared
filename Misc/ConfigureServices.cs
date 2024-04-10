@@ -41,7 +41,7 @@ public static class ConfigureServices {
         app.UseExceptionHandler();
     }
 
-    public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration config) {
+    public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration config, IHostEnvironment env) {
         var isconf = config.GetSection("IdentityServer");
 
         var title = config["SwaggerTitle"] ?? "Protected API";
@@ -49,6 +49,10 @@ public static class ConfigureServices {
         var apiName = isconf.GetOrThrow("ApiName");
         var authority = isconf.GetOrThrow("Authority");
         var apiScope = isconf.GetSection("ApiScope");
+
+        var clientHandler = new HttpClientHandler {
+            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+        };
 
         services.AddAuthentication(options => {
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,6 +65,9 @@ public static class ConfigureServices {
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;
                 options.Audience = apiName;
+                if (! env.IsProduction()) {
+                    options.BackchannelHttpHandler = clientHandler;
+                }
             });
 
         services.AddAuthorization(options => {
