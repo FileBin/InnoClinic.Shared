@@ -23,7 +23,7 @@ do
         .build/bin/Release/Filebin.InnoClinic.Shared.$proj.$current_version.nupkg \
         -k $NUGET_API_KEY \
         -s https://api.nuget.org/v3/index.json && \
-        echo "$current_version" > 'version.prev'
+        echo "$current_version" > '.version.prev'
     fi
     cd $directory
 done

@@ -26,5 +26,5 @@ jobs:
     - name: Test
       run: dotnet test -c Release --no-build --verbosity normal
     - name: Publish
-      run: ./publish.sh
+      run: NUGET_API_KEY=${{ secrets.NUGET_API_KEY }} ./publish.sh
     - uses: stefanzweifel/git-auto-commit-action@v5
