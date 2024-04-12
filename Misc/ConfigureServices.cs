@@ -5,10 +5,18 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Shared.Misc.Middleware;
 
 public static class ConfigureServices {
+    public static IServiceCollection AddUtils(this IServiceCollection services, IConfiguration config) {
+        services.AddLogging(loggingBuilder => {
+            loggingBuilder.AddSeq(config.GetSection("Seq"));
+        });
+        return services;
+    }
+
     public static IServiceCollection AddUtils(this IServiceCollection services) {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -65,7 +73,7 @@ public static class ConfigureServices {
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;
                 options.Audience = apiName;
-                if (! env.IsProduction()) {
+                if (!env.IsProduction()) {
                     options.BackchannelHttpHandler = clientHandler;
                 }
             });

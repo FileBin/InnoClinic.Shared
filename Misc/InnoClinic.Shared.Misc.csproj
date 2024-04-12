@@ -1,7 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <ProjectReference
-            Include="..\Domain.Abstractions\InnoClinic.Shared.Domain.Abstractions.csproj" />
+        <ProjectReference Include="..\Domain.Abstractions\InnoClinic.Shared.Domain.Abstractions.csproj" />
         <ProjectReference Include="..\Exceptions\InnoClinic.Shared.Exceptions.csproj" />
     </ItemGroup>
 
@@ -12,10 +11,11 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Seq.Extensions.Logging" Version="8.0.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />
