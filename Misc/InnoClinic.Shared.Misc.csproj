@@ -11,11 +11,14 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.4.1</Version>
+        <Version>1.0.4-dev2</Version>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Seq.Extensions.Logging" Version="8.0.0" />
+        <PackageReference Include="Serilog" Version="4.0.0-dev-02149" />
+        <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
+        <PackageReference Include="Serilog.Sinks.Seq" Version="7.0.1-dev-00286" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
         <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.5.0" />

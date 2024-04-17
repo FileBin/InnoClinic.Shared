@@ -5,15 +5,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Shared.Misc.Middleware;
+using Serilog;
 
 public static class ConfigureServices {
-    public static IServiceCollection AddLogger(this IServiceCollection services, IConfiguration config) {
-        services.AddLogging(loggingBuilder => {
-            loggingBuilder.AddSeq(config.GetSection("Seq"));
-        });
+    public static IServiceCollection AddLogger(this IServiceCollection services) {
+        services.AddSerilog();
         return services;
     }
 
