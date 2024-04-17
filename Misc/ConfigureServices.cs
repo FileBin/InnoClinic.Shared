@@ -8,11 +8,17 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Shared.Misc.Middleware;
 using Serilog;
+using Microsoft.Extensions.Logging;
 
 public static class ConfigureServices {
-    public static IServiceCollection AddLogger(this IServiceCollection services) {
-        services.AddSerilog();
-        return services;
+    public static void AddLogger(this WebApplicationBuilder builder) {
+        var logger = new LoggerConfiguration()
+          .ReadFrom.Configuration(builder.Configuration)
+          .Enrich.FromLogContext()
+          .CreateLogger();
+          
+        builder.Logging.ClearProviders();
+        builder.Logging.AddSerilog(logger);
     }
 
     public static IServiceCollection AddUtils(this IServiceCollection services) {
