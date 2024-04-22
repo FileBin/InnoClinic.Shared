@@ -1,4 +1,5 @@
-﻿using InnoClinic.Shared.Domain.Abstractions;
+﻿using System.Data.Entity;
+using InnoClinic.Shared.Domain.Abstractions;
 using Microsoft.Extensions.Configuration;
 
 namespace Shared.Misc;
@@ -27,6 +28,12 @@ public static class Extensions {
             throw new ArgumentException($"Config does not contain {key}");
         }
         return val;
+    }
+
+    public static async Task<IEnumerable<T>> GetPageAsync<T>(this IRepository<T> repository, IPageDesc pageDesc, CancellationToken cancellationToken = default) {
+        return await repository.GetAll()
+            .Paginate(pageDesc)
+            .ToListAsync(cancellationToken);
     }
 
 }
