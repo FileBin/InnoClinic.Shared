@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
         <ProjectReference Include="..\Domain.Abstractions\InnoClinic.Shared.Domain.Abstractions.csproj" />
         <ProjectReference Include="..\Exceptions\InnoClinic.Shared.Exceptions.csproj" />
@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <Version>1.0.5</Version>
+        <Version>1.0.6</Version>
     </PropertyGroup>
 
     <ItemGroup>
