@@ -1,5 +1,6 @@
 ﻿using InnoClinic.Shared.Domain.Abstractions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 namespace InnoClinic.Shared.Misc;
 
 public abstract class UnitOfWorkBase : IUnitOfWork {
@@ -27,5 +28,9 @@ public abstract class UnitOfWorkBase : IUnitOfWork {
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) {
         return GetDbContext().SaveChangesAsync(cancellationToken);
+    }
+
+    public Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken = default) {
+        return GetDbContext().Database.BeginTransactionAsync(cancellationToken);
     }
 }
