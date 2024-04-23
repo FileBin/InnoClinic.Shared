@@ -1,6 +1,5 @@
-﻿using System.Data.Entity;
-using InnoClinic.Shared.Domain.Abstractions;
-
+﻿using InnoClinic.Shared.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore;
 namespace InnoClinic.Shared.Misc;
 
 public abstract class UnitOfWorkBase : IUnitOfWork {
