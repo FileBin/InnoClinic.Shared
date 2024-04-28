@@ -1,5 +1,5 @@
-﻿using System.Data.Entity;
-using InnoClinic.Shared.Domain.Abstractions;
+﻿using InnoClinic.Shared.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
 namespace Shared.Misc;
