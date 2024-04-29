@@ -1,4 +1,4 @@
-﻿namespace Shared.Misc;
+﻿namespace InnoClinic.Shared.Misc;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -6,10 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Shared.Misc.Middleware;
 using Serilog;
 using Microsoft.Extensions.Logging;
-using InnoClinic.Shared.Misc;
+using InnoClinic.Shared.Misc.Middleware;
 
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {
@@ -17,7 +16,7 @@ public static class ConfigureServices {
           .ReadFrom.Configuration(builder.Configuration)
           .Enrich.FromLogContext()
           .CreateLogger();
-          
+
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
     }

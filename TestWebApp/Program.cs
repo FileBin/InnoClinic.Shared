@@ -1,6 +1,6 @@
 using System.Security.Claims;
+using InnoClinic.Shared.Misc;
 using Microsoft.AspNetCore.Authorization;
-using Shared.Misc;
 
 namespace InnoClinic.Shared.TestWebApp;
 

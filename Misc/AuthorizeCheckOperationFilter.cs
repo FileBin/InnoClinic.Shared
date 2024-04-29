@@ -1,9 +1,8 @@
-using InnoClinic.Shared.Misc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-namespace Shared.Misc;
+namespace InnoClinic.Shared.Misc;
 
 public class AuthorizeCheckOperationFilter(IConfiguration config) : IOperationFilter {
     public void Apply(OpenApiOperation operation, OperationFilterContext context) {
