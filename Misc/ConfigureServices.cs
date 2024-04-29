@@ -9,6 +9,7 @@ using Microsoft.OpenApi.Models;
 using Shared.Misc.Middleware;
 using Serilog;
 using Microsoft.Extensions.Logging;
+using InnoClinic.Shared.Misc;
 
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {

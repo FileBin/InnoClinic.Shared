@@ -1,3 +1,4 @@
+using InnoClinic.Shared.Misc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;

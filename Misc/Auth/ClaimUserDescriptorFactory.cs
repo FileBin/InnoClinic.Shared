@@ -1,7 +1,6 @@
 using System.Security.Claims;
 using InnoClinic.Shared.Domain.Abstractions;
 using Microsoft.Extensions.Configuration;
-using Shared.Misc;
 
 namespace InnoClinic.Shared.Misc.Auth;
 

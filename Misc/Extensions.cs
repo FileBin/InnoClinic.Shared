@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Shared.Misc;
+namespace InnoClinic.Shared.Misc;
 
 public static class Extensions {
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, IPageDesc pageDesc) {
