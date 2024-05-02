@@ -19,7 +19,7 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
     }
 
     public Task<TEntity?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default) {
-        return GetAll().SingleOrDefaultAsync(TEntity => TEntity.Id == id, cancellationToken);
+        return GetAll().SingleOrDefaultAsync(entity => entity.Id == id, cancellationToken);
     }
 
     public void Update(TEntity entity) {

@@ -1,6 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <ItemGroup>
-      <ProjectReference Include="..\Misc\InnoClinic.Shared.Misc.csproj" />
+      <ProjectReference Include="..\..\Misc\InnoClinic.Shared.Misc.csproj" />
     </ItemGroup>
     
     <PropertyGroup>

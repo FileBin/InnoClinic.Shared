@@ -15,7 +15,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoClinic.Shared.TestUtils
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.Tests", "Tests\InnoClinic.Shared.Tests.csproj", "{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.TestWebApp", "TestWebApp\InnoClinic.Shared.TestWebApp.csproj", "{26441A39-7BAE-4D36-A1F6-8EA5624210DE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestWebApps", "TestWebApps", "{3FC9A66B-7DF8-489B-96FB-8AF1E36AC126}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.SimpleWebApp", "TestWebApps\SimpleWebApp\InnoClinic.Shared.SimpleWebApp.csproj", "{56C72231-51F0-4CAF-9845-6EB750284218}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LayeredApplication", "LayeredApplication", "{902CC053-7DE8-4C18-B93F-636A4468AC26}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.WebLayer", "TestWebApps\LayeredWebApp\WebLayer\InnoClinic.Shared.LayeredWebApp.WebLayer.csproj", "{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.PresentationLayer", "TestWebApps\LayeredWebApp\PresentationLayer\InnoClinic.Shared.LayeredWebApp.PresentationLayer.csproj", "{D0C10D9F-C868-40B8-8409-CE3FC008E578}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,13 +55,27 @@ Global
 		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{23A61DC1-5FC2-4278-8A45-B69F839FD6E6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{26441A39-7BAE-4D36-A1F6-8EA5624210DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{26441A39-7BAE-4D36-A1F6-8EA5624210DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{26441A39-7BAE-4D36-A1F6-8EA5624210DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{26441A39-7BAE-4D36-A1F6-8EA5624210DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56C72231-51F0-4CAF-9845-6EB750284218}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56C72231-51F0-4CAF-9845-6EB750284218}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56C72231-51F0-4CAF-9845-6EB750284218}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56C72231-51F0-4CAF-9845-6EB750284218}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{56C72231-51F0-4CAF-9845-6EB750284218} = {3FC9A66B-7DF8-489B-96FB-8AF1E36AC126}
+		{902CC053-7DE8-4C18-B93F-636A4468AC26} = {3FC9A66B-7DF8-489B-96FB-8AF1E36AC126}
+		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
+		{D0C10D9F-C868-40B8-8409-CE3FC008E578} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93C24ACB-64FD-4327-B91A-D23993893A00}

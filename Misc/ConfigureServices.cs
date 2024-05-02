@@ -51,6 +51,7 @@ public static class ConfigureServices {
         }
 
         app.UseExceptionHandler();
+        app.UseStatusCodePages();
     }
 
     public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration config, IHostEnvironment env) {
