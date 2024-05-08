@@ -11,7 +11,7 @@ namespace InnoClinic.Shared.Tests.Misc;
 record ClaimDesc(string Type, string Value);
 
 class Tests {
-    TestWebApplicationFactory<TestWebApp.Program> _application;
+    TestWebApplicationFactory<SimpleWebApp.Program> _application;
 
     private readonly WebApplicationFactoryClientOptions DefaultOptions = new() {
         AllowAutoRedirect = false

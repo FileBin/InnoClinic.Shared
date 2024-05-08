@@ -3,7 +3,7 @@ using InnoClinic.Shared.Exceptions.Models;
 using InnoClinic.Shared.Misc;
 using Microsoft.AspNetCore.Authorization;
 
-namespace InnoClinic.Shared.TestWebApp;
+namespace InnoClinic.Shared.SimpleWebApp;
 
 public class Program {
     static void Main(string[] args) {
