@@ -13,7 +13,17 @@ public static class RepositoryExtensions {
         var exists = await repository.ExistsAsync(id, cancellationToken);
 
         if (!exists) {
-            throw new NotFoundException($"{typeof(T).Name} with id {id} not found");
+            throw new NotFoundException($"{typeof(T).Name} with id {id} was not found");
         }
+    }
+
+    public static async Task<T> GetByIdOrThrow<T>(this IRepository<T> repository, Guid id, CancellationToken cancellationToken = default) where T : IEntity {
+        return await repository.GetByIdAsync(id, cancellationToken)
+            ?? throw new NotFoundException($"{typeof(T).Name} with id {id} was not found");
+    }
+
+    public static async Task DeleteByIdAsync<T>(this IRepository<T> repository, Guid id, CancellationToken cancellationToken = default) where T : IEntity {
+        T entity = await repository.GetByIdOrThrow(id, cancellationToken);
+        repository.Delete(entity);
     }
 }
