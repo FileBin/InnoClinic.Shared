@@ -9,6 +9,10 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using Microsoft.Extensions.Logging;
 using InnoClinic.Shared.Misc.Middleware;
+using System.Reflection;
+using InnoClinic.Shared.Misc.Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Routing;
 
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {
@@ -20,6 +24,33 @@ public static class ConfigureServices {
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
     }
+
+    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly) {
+        var serviceDescriptors = assembly
+            .DefinedTypes
+            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
+                           type.IsAssignableTo(typeof(IEndpoint)))
+            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .ToArray();
+
+        services.TryAddEnumerable(serviceDescriptors);
+
+        return services;
+    }
+
+    public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null) {
+        var endpoints = app.Services
+            .GetRequiredService<IEnumerable<IEndpoint>>();
+
+        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
+
+        foreach (IEndpoint endpoint in endpoints) {
+            endpoint.MapEndpoint(builder);
+        }
+
+        return app;
+    }
+
 
     public static IServiceCollection AddUtils(this IServiceCollection services) {
         services.AddEndpointsApiExplorer();
