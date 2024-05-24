@@ -1,39 +1,30 @@
+using InnoClinic.Shared.Domain.Models;
 using InnoClinic.Shared.Misc.Services.Abstraction;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-
-using HttpMethod = InnoClinic.Shared.Domain.Models.HttpMethod;
 
 namespace InnoClinic.Shared.Misc.Services;
 
 public abstract class AbstractEndpoint : IEndpoint {
     public abstract string Pattern { get; }
 
-    public abstract HttpMethod Method { get; }
+    public abstract EndpointHttpMethods Method { get; }
 
     protected abstract Delegate EndpointHandler { get; }
 
     public void MapEndpoint(IEndpointRouteBuilder app) {
-        switch (Method) {
-            case HttpMethod.Get:
-                app.MapGet(Pattern, EndpointHandler);
-                break;
+        app.MapEndpoint(Method, [Pattern], EndpointHandler);
+    }
+}
 
-            case HttpMethod.Post:
-                app.MapPost(Pattern, EndpointHandler);
-                break;
 
-            case HttpMethod.Put:
-                app.MapPut(Pattern, EndpointHandler);
-                break;
+public abstract class MultipleEndpoint : IEndpoint {
+    public abstract IEnumerable<string> Patterns { get; }
 
-            case HttpMethod.Patch:
-                app.MapPatch(Pattern, EndpointHandler);
-                break;
+    public abstract EndpointHttpMethods Method { get; }
 
-            case HttpMethod.Delete:
-                app.MapDelete(Pattern, EndpointHandler);
-                break;
-        }
+    protected abstract Delegate EndpointHandler { get; }
+
+    public void MapEndpoint(IEndpointRouteBuilder app) {
+        app.MapEndpoint(Method, Patterns, EndpointHandler);
     }
 }
