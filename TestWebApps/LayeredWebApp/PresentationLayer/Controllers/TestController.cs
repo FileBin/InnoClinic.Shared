@@ -19,7 +19,7 @@ public class TestController(TestCrudService testCrudService) : ControllerBase {
 
     [HttpGet]
     [ProducesResponseType(typeof(TestEntityResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesErrorResponseType(typeof(ProblemDetails))]
     [Route("{id:guid}")]
     public async Task<IActionResult> GetEntity([FromRoute] Guid id, CancellationToken cancellationToken) {
         var entity = await testCrudService.GetByIdAsync(id, cancellationToken);
@@ -56,7 +56,8 @@ public class TestController(TestCrudService testCrudService) : ControllerBase {
     [HttpPut]
     [HttpPatch]
     [HttpDelete]
-    public async Task<IActionResult> TestException() {
+    public IActionResult TestException() {
+        _ = testCrudService.ToString();
         throw new NotFoundException();
     }
 }

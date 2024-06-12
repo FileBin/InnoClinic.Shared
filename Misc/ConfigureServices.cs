@@ -23,7 +23,6 @@ public static class ConfigureServices {
           .Enrich.FromLogContext()
           .CreateLogger();
 
-        builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
     }
 
