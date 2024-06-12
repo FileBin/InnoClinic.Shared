@@ -1,6 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="8.0.6" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
     <ItemGroup>

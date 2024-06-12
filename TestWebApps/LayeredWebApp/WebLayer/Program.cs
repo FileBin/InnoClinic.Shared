@@ -29,6 +29,8 @@ public class Program {
         app.MapControllers();
         
         app.UseIdentityServer();
+
+        app.UseInfrastructure();
         app.Run();
     }
 }

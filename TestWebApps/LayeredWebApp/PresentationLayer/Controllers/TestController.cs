@@ -2,6 +2,7 @@
 using InnoClinic.Shared.Exceptions.Models;
 using InnoClinic.Shared.LayeredWebApp.ApplicationLayer;
 using InnoClinic.Shared.LayeredWebApp.ApplicationLayer.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InnoClinic.Shared.LayeredWebApp.PresentationLayer.Controllers;
@@ -17,6 +18,8 @@ public class TestController(TestCrudService testCrudService) : ControllerBase {
     }
 
     [HttpGet]
+    [ProducesResponseType(typeof(TestEntityResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
     [Route("{id:guid}")]
     public async Task<IActionResult> GetEntity([FromRoute] Guid id, CancellationToken cancellationToken) {
         var entity = await testCrudService.GetByIdAsync(id, cancellationToken);
