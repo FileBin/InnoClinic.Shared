@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using InnoClinic.Shared.Exceptions.Models;
+using InnoClinic.Shared.LayeredWebApp.ApplicationLayer;
 using InnoClinic.Shared.LayeredWebApp.PresentationLayer;
 using InnoClinic.Shared.Misc;
 using Microsoft.AspNetCore.Authorization;
@@ -12,6 +13,8 @@ public class Program {
 
         builder.Services
             .AddUtils()
+            .AddApplication()
+            .AddInfrastructure()
             .AddPresentation()
             .AddIdentityServer(builder.Configuration, builder.Environment);
 

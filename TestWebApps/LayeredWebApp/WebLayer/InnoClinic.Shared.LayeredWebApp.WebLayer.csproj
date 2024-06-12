@@ -1,7 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
     <ItemGroup>
       <ProjectReference Include="..\..\..\Misc\InnoClinic.Shared.Misc.csproj" />
+      <ProjectReference Include="..\..\..\Exceptions\InnoClinic.Shared.Exceptions.csproj" />
       <ProjectReference Include="..\PresentationLayer\InnoClinic.Shared.LayeredWebApp.PresentationLayer.csproj" />
+      <ProjectReference Include="..\ApplicationLayer\InnoClinic.Shared.LayeredWebApp.ApplicationLayer.csproj" />
+      <ProjectReference Include="..\InfrastructureLayer\InnoClinic.Shared.LayeredWebApp.InfrastructureLayer.csproj" />
     </ItemGroup>
     
     <PropertyGroup>

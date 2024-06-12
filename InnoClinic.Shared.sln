@@ -25,6 +25,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.PresentationLayer", "TestWebApps\LayeredWebApp\PresentationLayer\InnoClinic.Shared.LayeredWebApp.PresentationLayer.csproj", "{D0C10D9F-C868-40B8-8409-CE3FC008E578}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.DomainLayer", "TestWebApps\LayeredWebApp\DomainLayer\InnoClinic.Shared.LayeredWebApp.DomainLayer.csproj", "{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.ApplicationLayer", "TestWebApps\LayeredWebApp\ApplicationLayer\InnoClinic.Shared.LayeredWebApp.ApplicationLayer.csproj", "{EA625371-0FA8-46DE-873C-9A67E97473B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoClinic.Shared.LayeredWebApp.InfrastructureLayer", "TestWebApps\LayeredWebApp\InfrastructureLayer\InnoClinic.Shared.LayeredWebApp.InfrastructureLayer.csproj", "{2E98E012-91AB-410E-95AE-26FACCFBAB8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +73,18 @@ Global
 		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0C10D9F-C868-40B8-8409-CE3FC008E578}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA625371-0FA8-46DE-873C-9A67E97473B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA625371-0FA8-46DE-873C-9A67E97473B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA625371-0FA8-46DE-873C-9A67E97473B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA625371-0FA8-46DE-873C-9A67E97473B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2E98E012-91AB-410E-95AE-26FACCFBAB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2E98E012-91AB-410E-95AE-26FACCFBAB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2E98E012-91AB-410E-95AE-26FACCFBAB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2E98E012-91AB-410E-95AE-26FACCFBAB8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -76,6 +94,9 @@ Global
 		{902CC053-7DE8-4C18-B93F-636A4468AC26} = {3FC9A66B-7DF8-489B-96FB-8AF1E36AC126}
 		{2D9A4DA7-CA97-487A-B0B6-8109EFFB88EE} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
 		{D0C10D9F-C868-40B8-8409-CE3FC008E578} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
+		{B67CAC7F-C978-470C-8B9D-5F6D1D40CF66} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
+		{EA625371-0FA8-46DE-873C-9A67E97473B9} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
+		{2E98E012-91AB-410E-95AE-26FACCFBAB8C} = {902CC053-7DE8-4C18-B93F-636A4468AC26}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93C24ACB-64FD-4327-B91A-D23993893A00}

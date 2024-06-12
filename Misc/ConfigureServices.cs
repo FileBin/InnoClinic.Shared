@@ -13,6 +13,8 @@ using System.Reflection;
 using InnoClinic.Shared.Misc.Services.Abstraction;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Routing;
+using InnoClinic.Shared.Domain.Abstractions;
+using System.Xml;
 
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {
@@ -49,6 +51,19 @@ public static class ConfigureServices {
         }
 
         return app;
+    }
+
+    public static IServiceCollection AddRepositoriesFromAssembly(this IServiceCollection services, Assembly assembly) {
+        assembly.GetTypes()
+            .Select(type => (service:
+                type.GetInterfaces().Where(t => t.IsGenericType).FirstOrDefault(t => 
+                    t.GetGenericTypeDefinition() == typeof(IRepository<>)),
+                implementation: type))
+            .Where(tuple => tuple.service is not null)
+            .ToList()
+            .ForEach(pair => services.AddScoped(pair.service!, pair.implementation));
+
+        return services;
     }
 
 

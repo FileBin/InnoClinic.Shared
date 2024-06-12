@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-      <ProjectReference Include="..\..\..\Misc\InnoClinic.Shared.Misc.csproj" />
       <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\ApplicationLayer\InnoClinic.Shared.LayeredWebApp.ApplicationLayer.csproj" />
+      <ProjectReference Include="..\..\..\Misc\InnoClinic.Shared.Misc.csproj" />
+      <ProjectReference Include="..\DomainLayer\InnoClinic.Shared.LayeredWebApp.DomainLayer.csproj" />
     </ItemGroup>
     
     <PropertyGroup>
