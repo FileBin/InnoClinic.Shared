@@ -14,7 +14,9 @@ using InnoClinic.Shared.Misc.Services.Abstraction;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.AspNetCore.Routing;
 using InnoClinic.Shared.Domain.Abstractions;
-using System.Xml;
+
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {
@@ -55,7 +57,7 @@ public static class ConfigureServices {
     public static IServiceCollection AddRepositoriesFromAssembly(this IServiceCollection services, Assembly assembly) {
         assembly.GetTypes()
             .Select(type => (service:
-                type.GetInterfaces().Where(t => t.IsGenericType).FirstOrDefault(t => 
+                type.GetInterfaces().Where(t => t.IsGenericType).FirstOrDefault(t =>
                     t.GetGenericTypeDefinition() == typeof(IRepository<>)),
                 implementation: type))
             .Where(tuple => tuple.service is not null)
@@ -181,6 +183,21 @@ public static class ConfigureServices {
                 options.OAuthAppName(appName);
                 options.OAuthUsePkce();
             });
+        }
+    }
+
+    public static async Task EnsureDatabaseCreated<T>(this WebApplication app, bool migrate = false) where T : DbContext {
+        using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+        ArgumentNullException.ThrowIfNull(serviceScope);
+
+        var context = serviceScope.ServiceProvider.GetRequiredService<T>();
+        try {
+            await context.Database.EnsureCreatedAsync();
+            if (migrate) {
+                await context.Database.MigrateAsync();
+            }
+        } catch (SqlException e) {
+            app.Logger.LogWarning(e, "Database creating exited with errors");
         }
     }
 }
