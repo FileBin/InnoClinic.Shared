@@ -14,7 +14,7 @@ public abstract class CrudRepositoryBase<TEntity> : IRepository<TEntity> where T
         GetDbSet().Remove(entity);
     }
 
-    public IQueryable<TEntity> GetAll() {
+    public virtual IQueryable<TEntity> GetAll() {
         return GetDbSet().AsNoTracking();
     }
 

@@ -21,9 +21,9 @@ using System.Data.SqlClient;
 public static class ConfigureServices {
     public static void AddLogger(this WebApplicationBuilder builder) {
         var logger = new LoggerConfiguration()
-          .ReadFrom.Configuration(builder.Configuration)
-          .Enrich.FromLogContext()
-          .CreateLogger();
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .CreateLogger();
 
         builder.Logging.AddSerilog(logger);
     }
@@ -32,7 +32,7 @@ public static class ConfigureServices {
         var serviceDescriptors = assembly
             .DefinedTypes
             .Where(type => type is { IsAbstract: false, IsInterface: false } &&
-                           type.IsAssignableTo(typeof(IEndpoint)))
+                type.IsAssignableTo(typeof(IEndpoint)))
             .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
             .ToArray();
 
