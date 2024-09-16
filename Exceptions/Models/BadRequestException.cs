@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Exceptions.Models;
+namespace InnoClinic.Shared.Exceptions.Models;
 
 public class BadRequestException : WebException {
     private static readonly string title = "BadRequest";
@@ -8,5 +8,5 @@ public class BadRequestException : WebException {
     public BadRequestException(string? message) : base(title, message) { }
     public BadRequestException(string? message, Exception? innerException) : base(title, message, innerException) { }
 
-    public override int statusCode => StatusCodes.Status400BadRequest;
+    public override int StatusCode => StatusCodes.Status400BadRequest;
 }

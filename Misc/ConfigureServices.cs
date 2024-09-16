@@ -1,4 +1,4 @@
-﻿namespace Shared.Misc;
+﻿namespace InnoClinic.Shared.Misc;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -6,9 +6,68 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Shared.Misc.Middleware;
+using Serilog;
+using Microsoft.Extensions.Logging;
+using InnoClinic.Shared.Misc.Middleware;
+using System.Reflection;
+using InnoClinic.Shared.Misc.Services.Abstraction;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.AspNetCore.Routing;
+using InnoClinic.Shared.Domain.Abstractions;
+
+using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
 
 public static class ConfigureServices {
+    public static void AddLogger(this WebApplicationBuilder builder) {
+        var logger = new LoggerConfiguration()
+            .ReadFrom.Configuration(builder.Configuration)
+            .Enrich.FromLogContext()
+            .CreateLogger();
+
+        builder.Logging.AddSerilog(logger);
+    }
+
+    public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly) {
+        var serviceDescriptors = assembly
+            .DefinedTypes
+            .Where(type => type is { IsAbstract: false, IsInterface: false } &&
+                type.IsAssignableTo(typeof(IEndpoint)))
+            .Select(type => ServiceDescriptor.Transient(typeof(IEndpoint), type))
+            .ToArray();
+
+        services.TryAddEnumerable(serviceDescriptors);
+
+        return services;
+    }
+
+    public static IApplicationBuilder MapEndpoints(this WebApplication app, RouteGroupBuilder? routeGroupBuilder = null) {
+        var endpoints = app.Services
+            .GetRequiredService<IEnumerable<IEndpoint>>();
+
+        IEndpointRouteBuilder builder = routeGroupBuilder is null ? app : routeGroupBuilder;
+
+        foreach (IEndpoint endpoint in endpoints) {
+            endpoint.MapEndpoint(builder);
+        }
+
+        return app;
+    }
+
+    public static IServiceCollection AddRepositoriesFromAssembly(this IServiceCollection services, Assembly assembly) {
+        assembly.GetTypes()
+            .Select(type => (service:
+                type.GetInterfaces().Where(t => t.IsGenericType).FirstOrDefault(t =>
+                    t.GetGenericTypeDefinition() == typeof(IRepository<>)),
+                implementation: type))
+            .Where(tuple => tuple.service is not null)
+            .ToList()
+            .ForEach(pair => services.AddScoped(pair.service!, pair.implementation));
+
+        return services;
+    }
+
+
     public static IServiceCollection AddUtils(this IServiceCollection services) {
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
@@ -39,9 +98,10 @@ public static class ConfigureServices {
         }
 
         app.UseExceptionHandler();
+        app.UseStatusCodePages();
     }
 
-    public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration config) {
+    public static IServiceCollection AddIdentityServer(this IServiceCollection services, IConfiguration config, IHostEnvironment env) {
         var isconf = config.GetSection("IdentityServer");
 
         var title = config["SwaggerTitle"] ?? "Protected API";
@@ -49,6 +109,10 @@ public static class ConfigureServices {
         var apiName = isconf.GetOrThrow("ApiName");
         var authority = isconf.GetOrThrow("Authority");
         var apiScope = isconf.GetSection("ApiScope");
+
+        var clientHandler = new HttpClientHandler {
+            ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; }
+        };
 
         services.AddAuthentication(options => {
             options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -61,6 +125,9 @@ public static class ConfigureServices {
                 options.Authority = authority;
                 options.RequireHttpsMetadata = false;
                 options.Audience = apiName;
+                if (!env.IsProduction()) {
+                    options.BackchannelHttpHandler = clientHandler;
+                }
             });
 
         services.AddAuthorization(options => {
@@ -116,6 +183,21 @@ public static class ConfigureServices {
                 options.OAuthAppName(appName);
                 options.OAuthUsePkce();
             });
+        }
+    }
+
+    public static async Task EnsureDatabaseCreated<T>(this WebApplication app, bool migrate = false) where T : DbContext {
+        using var serviceScope = app.Services.GetService<IServiceScopeFactory>()?.CreateScope();
+        ArgumentNullException.ThrowIfNull(serviceScope);
+
+        var context = serviceScope.ServiceProvider.GetRequiredService<T>();
+        try {
+            await context.Database.EnsureCreatedAsync();
+            if (migrate) {
+                await context.Database.MigrateAsync();
+            }
+        } catch (SqlException e) {
+            app.Logger.LogWarning(e, "Database creating exited with errors");
         }
     }
 }

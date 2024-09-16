@@ -1,7 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using Shared.Domain.Abstractions;
+﻿using InnoClinic.Shared.Domain.Abstractions;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
-namespace Shared.Misc;
+namespace InnoClinic.Shared.Misc;
 
 public static class Extensions {
     public static IQueryable<T> Paginate<T>(this IQueryable<T> query, IPageDesc pageDesc) {
@@ -27,6 +28,12 @@ public static class Extensions {
             throw new ArgumentException($"Config does not contain {key}");
         }
         return val;
+    }
+
+    public static async Task<IEnumerable<T>> GetPageAsync<T>(this IRepository<T> repository, IPageDesc pageDesc, CancellationToken cancellationToken = default) {
+        return await repository.GetAll()
+            .Paginate(pageDesc)
+            .ToListAsync(cancellationToken);
     }
 
 }

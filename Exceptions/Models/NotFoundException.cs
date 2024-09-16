@@ -1,15 +1,15 @@
 using Microsoft.AspNetCore.Http;
 
-namespace Shared.Exceptions.Models;
+namespace InnoClinic.Shared.Exceptions.Models;
 
 public class NotFoundException : WebException {
     private static readonly string title = "NotFound";
 
-    public override int statusCode => StatusCodes.Status404NotFound;
+    public override int StatusCode => StatusCodes.Status404NotFound;
 
-    public static NotFoundException ParameterNotFound(string name) => new NotFoundException($"parameter {name} not found");
+    public static NotFoundException ParameterNotFound(string name) => new($"parameter {name} not found");
 
-    public static NotFoundException NotFoundInDatabase(string name) => new NotFoundException($"{name} not found in database");
+    public static NotFoundException NotFoundInDatabase(string name) => new($"{name} not found in database");
 
     public NotFoundException() : base(title) { }
     public NotFoundException(string? message) : base(title, message) { }
